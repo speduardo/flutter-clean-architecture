@@ -1,6 +1,6 @@
 # fluttercleanarchitecture
 
-A new Flutter with clean architecture application.
+A new Flutter application with clean architecture.
 
 ## Getting Started
 

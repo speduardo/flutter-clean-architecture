@@ -62,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           Image(
                             image: AssetImage(url['iconPath']),
-                            //color: Colors.white,
+                            color: Colors.white,
                             //fit: BoxFit.contain,
                             height: 60,
                           ),
@@ -145,15 +145,20 @@ class _HomeViewState extends State<HomeView> {
 
               Container(
                 //margin: EdgeInsets.only(top: 10),
-                height: 300,
+                padding: EdgeInsets.all(10),
+                height: 220,
                 color: Colors.white,
                 child: Column(
                     children: [
-                      Text('EMPRESA'),
+                      Text('EMPRESA',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                       Text('Conheça os destaques da nossa cidade!'),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 20.0),
-                  padding: EdgeInsets.only(left: 15),
+                  padding: EdgeInsets.only(left: 5),
                   height: 120.0,
                   child:
                       ListView(
@@ -166,7 +171,7 @@ class _HomeViewState extends State<HomeView> {
                               Image(
                                 image: AssetImage('assets/images/diskpizza-logo.jpg'),
                               ),
-                              Text('Disk Pizza'),
+                              Text('Disk Pizza', style: TextStyle(fontWeight: FontWeight.bold),),
                               Text('(64) 3645-2388')
                             ],),
                           ),
@@ -178,10 +183,10 @@ class _HomeViewState extends State<HomeView> {
                             color: Colors.white,
                             child: Column(children: [
                               Image(
-                                image: AssetImage('assets/images/diskpizza-logo.jpg'),
+                                image: AssetImage('assets/images/drogavida-logo.jpg'),
                               ),
-                              Text('Disk Pizza'),
-                              Text('(64) 3645-2388')
+                              Text('Droga Vida', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text('(64) 3645-1429')
                             ],),
                           ),
 
@@ -192,10 +197,10 @@ class _HomeViewState extends State<HomeView> {
                             color: Colors.white,
                             child: Column(children: [
                               Image(
-                                image: AssetImage('assets/images/diskpizza-logo.jpg'),
+                                image: AssetImage('assets/images/brisa-logo.jpg'),
                               ),
-                              Text('Disk Pizza'),
-                              Text('(64) 3645-2388')
+                              Text('Brisa Calçados', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text('(64) 3645-2232')
                             ],),
                           ),
                       ]

@@ -19,6 +19,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
+  int _currentIndex = 0;
+
   bool _isTapped = false;
   double xOffset = 0;
   double yOffset = 0;
@@ -37,11 +39,75 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey,
         appBar: AppBar(
           title: const Text('Guia Comercial'),
+          centerTitle: true,
+          elevation: 0,
         ),
-        body: SingleChildScrollView(
+        drawer: Drawer(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.home),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Perfil'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Perfil'),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              leading: Icon(Icons.stars, color: Colors.black),
+              title: Text('Em destaque'),
+              subtitle: Text('Ordenado pelos mais próximos'),
+            ),
+
+            ListTile(
+              leading: Icon(Icons.trending_up, color: Colors.black),
+              title: Text('Mais vistos da semana'),
+              subtitle: Text('Click duplo para detalhar'),
+            ),
+
+            ListTile(
+              leading: Icon(Icons.category, color: Colors.black),
+              title: Text('Categorias'),
+              //subtitle: Text('Click duplo para detalhar'),
+            ),
+
+            ListTile(
+              leading: Icon(Icons.star, color: Colors.black),
+              title: Text('Populares'),
+              //subtitle: Text('Click duplo para detalhar'),
+            ),
+
+            ListTile(
+              leading: Icon(Icons.recent_actors, color: Colors.black),
+              title: Text('Comentários recentes'),
+              //subtitle: Text('Click duplo para detalhar'),
+            ),
+
+          ],
+        ),
+      ),
+
+
+
+      /*SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +279,7 @@ class _HomeViewState extends State<HomeView> {
 
             ],
           ),
-          ),
+          ),*/
     );
   }
 }

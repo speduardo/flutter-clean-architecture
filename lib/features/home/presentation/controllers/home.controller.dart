@@ -8,7 +8,7 @@ class HomeController extends GetController {
 
   void increment() {
     counter++;
-    update(this);
+    update();
   }
 }
 

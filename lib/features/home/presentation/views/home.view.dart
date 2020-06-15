@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/navigationtabs.model.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/controllers/configurations.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.controller.dart';
@@ -14,6 +16,7 @@ import 'package:fluttercleanarchitecture/features/home/presentation/widgets/cust
 import 'package:get/get.dart';
 import 'package:getflutter/components/button/gf_button.dart';
 import 'package:getflutter/getflutter.dart';
+import 'package:hive/hive.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
@@ -23,6 +26,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  Box _estabelecimentoBox;
+  var path = Directory.current.path;
+
   int _selectedIndex = 0;
   int _currentIndex = 0;
 
@@ -40,6 +46,14 @@ class _HomeViewState extends State<HomeView> {
     NavigationTabs(
         title: "Sobre Nós", icon: Icons.supervised_user_circle, index: 3),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Hive
+      ..init(path)
+      ..registerAdapter(EstabelecimentoModelAdapter());
+  }
 
   @override
   Widget build(BuildContext context) {

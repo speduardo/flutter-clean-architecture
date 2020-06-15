@@ -1,3 +1,4 @@
+/*
 Row(
 children: <Widget>[
 NavigationRail(
@@ -56,4 +57,4 @@ child: Text('selectedIndex: $_selectedIndex'),
 ),
 )
 ],
-),
+),*/

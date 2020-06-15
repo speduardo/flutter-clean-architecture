@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -245,4 +246,4 @@ class Entity {
 
   int get count => rx.count.value;
   set count(int value) =>rx.count.value = value;
-}
+}*/

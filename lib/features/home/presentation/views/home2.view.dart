@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+/*
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/navigationtabs.model.dart';
@@ -69,7 +69,8 @@ class _HomeViewState extends State<HomeView> {
                           isDrawerOpen=true;
                         });
                       }),
-                  /*Column(
+                  */
+/*Column(
                       children: [
                         Text('Location'),
                         Row(
@@ -82,7 +83,8 @@ class _HomeViewState extends State<HomeView> {
                           ],
                         ),
                       ],
-                    ),*/
+                    ),*//*
+
                   CircleAvatar()
                 ],
               ),
@@ -125,7 +127,8 @@ class _HomeViewState extends State<HomeView> {
 
                       ),
                     ),
-                    /*child: Column(
+                    */
+/*child: Column(
                     //crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Image(
@@ -134,7 +137,8 @@ class _HomeViewState extends State<HomeView> {
                         image: AssetImage(item['image'].toString()),
                       ),
                     ]
-                ),*/
+                ),*//*
+
                     //color: Colors.green,
                   )).toList(),
                   //carouselController: buttonCarouselController,
@@ -180,12 +184,14 @@ class _HomeViewState extends State<HomeView> {
                                 Icon(categories[index]['icon'], color: Colors.white, size: 28,),
                                 Text(categories[index]['name'], style: TextStyle(fontSize: 16, color: Colors.white),)
                               ],))
-                          /*Image.asset(
+                          */
+/*Image.asset(
                               categories[index]['iconPath'],
                               height: 50,
                               width: 50,
                               color: Colors.grey[700],
-                            ),*/
+                            ),*//*
+
                         ),
                       ],
                     ),
@@ -253,7 +259,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
 
 
-                  /*Container(
+                  */
+/*Container(
                   height: 240,
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -261,13 +268,17 @@ class _HomeViewState extends State<HomeView> {
                       Expanded(
                         child: Stack(
                           children: [
-                            *//*Container(
+                            *//*
+*/
+/*Container(
                               decoration: BoxDecoration(color: Colors.blueGrey[300],
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: shadowList,
                               ),
                               margin: EdgeInsets.only(top: 50),
                             ),*//*
+*/
+/*
                             Align(
                               child: Hero(
                                   tag:1,
@@ -303,11 +314,13 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
 
-                ),*/
+                ),*//*
+
                 ),
               ],
             ),
-            /*Container(
+            */
+/*Container(
                 height: 240,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -342,7 +355,8 @@ class _HomeViewState extends State<HomeView> {
                     ))
                   ],
                 ),
-              ),*/
+              ),*//*
+
 
             SizedBox(height: 50,)
 
@@ -352,3 +366,4 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+*/

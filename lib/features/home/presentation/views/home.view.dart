@@ -173,6 +173,7 @@ class _HomeViewState extends State<HomeView> {
                 height: 400,
                 child: ListView(
                   scrollDirection: Axis.vertical,
+                  primary: false,
                   children: [
                     CustomPopularesCard(),
                     CustomPopularesCard(),
@@ -187,9 +188,10 @@ class _HomeViewState extends State<HomeView> {
               ),
 
               Container(
-                height: 400,
+                height: 300,
                 child: ListView(
                   scrollDirection: Axis.vertical,
+                  primary: false,
                   children: [
                     CustomReviewCard(),
                     CustomReviewCard(),

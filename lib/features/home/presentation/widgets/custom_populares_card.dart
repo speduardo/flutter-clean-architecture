@@ -30,7 +30,7 @@ class _CustomPopularesCardState extends State<CustomPopularesCard> {
               //mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image(
-                  width: 150,
+                  width: 130,
                   image: AssetImage('assets/images/dyonnim-logo.jpg'),
                 ),
                 SizedBox(height: 10),
@@ -64,7 +64,7 @@ class _CustomPopularesCardState extends State<CustomPopularesCard> {
               //mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image(
-                  width: 150,
+                  width: 130,
                   image: AssetImage('assets/images/dyonnim-logo.jpg'),
                 ),
                 SizedBox(height: 10),

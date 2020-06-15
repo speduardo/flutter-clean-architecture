@@ -18,9 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
       title: 'Flutter Demo',
-        theme: appThemeData[AppTheme.WhiteLight],
-      home: HomeView(),
+      theme: appThemeData[AppTheme.WhiteLight],
+      namedRoutes: {
+        '/': GetRoute(page: HomeView()),
+        '/destaque': GetRoute(page: DetailView()),
+      },
+      //home: HomeView(),
     );
   }
 }

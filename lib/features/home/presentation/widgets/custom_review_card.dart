@@ -69,5 +69,6 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
         ],
       ),
     );
+
   }
 }

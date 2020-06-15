@@ -217,5 +217,6 @@ class _DetailViewState extends State<DetailView> {
         ),
       ),
     );
+
   }
 }

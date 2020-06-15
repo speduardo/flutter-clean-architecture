@@ -67,5 +67,6 @@ class _CustomFabButtonState extends State<CustomFabButton>
         progress: _animatedIcon,
       ),
     );
+
   }
 }

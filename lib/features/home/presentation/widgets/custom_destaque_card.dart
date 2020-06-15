@@ -101,5 +101,6 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
         Get.toNamed("/destaque");
       },
     );
+
   }
 }

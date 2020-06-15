@@ -45,6 +45,5 @@ final appThemeData = {
       selectedIconTheme: IconThemeData(color: Colors.deepOrange),
       unselectedIconTheme: IconThemeData(color: Colors.grey[600]),
     ),
-
   ),
 };

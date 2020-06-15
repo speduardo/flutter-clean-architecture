@@ -85,5 +85,6 @@ class _CustomPopularesCardState extends State<CustomPopularesCard> {
         ],
       ),
     );
+
   }
 }

@@ -51,5 +51,6 @@ class _CustomImageCardState extends State<CustomImageCard> {
         ],
       ),
     );
+
   }
 }

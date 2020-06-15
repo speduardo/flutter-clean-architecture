@@ -43,7 +43,7 @@ class _CustomCategoriaButtonState extends State<CustomCategoriaButton> {
           ),
         ],
       ),
-
     );
+
   }
 }

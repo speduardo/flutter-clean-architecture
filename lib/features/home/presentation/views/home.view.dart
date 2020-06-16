@@ -21,6 +21,7 @@ import 'package:get/get.dart';
 import 'package:getflutter/components/button/gf_button.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
@@ -30,8 +31,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  Box _estabelecimentoBox;
-
   int _selectedIndex = 0;
   int _currentIndex = 0;
 
@@ -50,22 +49,19 @@ class _HomeViewState extends State<HomeView> {
         title: "Sobre Nós", icon: Icons.supervised_user_circle, index: 3),
   ];
 
+  Future<List<EstabelecimentoEntity>> lista;
+  EstabelecimentoUseCase useCase;
+
   @override
   void initState() {
     super.initState();
 
-    EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
+    useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: EstabelecimentoDataSource()));
+    //Future<List<EstabelecimentoEntity>> lista = useCase.getAll();
 
-    EstabelecimentoModel model = EstabelecimentoModel(nome: 'Dyonnim Lanches', descricao: 'Melhor lanche da cidade');
-    dataSource.save(model);
+    //lista.then((value) => print('Lista - : ${value[0].nome}'));
 
-    EstabelecimentoRepository repository = EstabelecimentoRepository(dataSource: dataSource);
-    EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: repository);
-    Future<List<EstabelecimentoEntity>> lista = useCase.getAll();
 
-    lista.then((value) => value.forEach((element) {
-      print('Nome: ${element.nome}');
-    }));
   }
 
   @override
@@ -79,7 +75,15 @@ class _HomeViewState extends State<HomeView> {
       drawer: Drawer(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.home),
-        onPressed: () {},
+        onPressed: () {
+          EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
+          EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
+          useCase.save(EstabelecimentoEntity(
+            nome: 'Disk Pizza',
+            descricao: 'Melhor Pizzaria da cidade',
+            logo: 'assets/images/diskpizza-logo.jpg')
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
@@ -141,16 +145,33 @@ class _HomeViewState extends State<HomeView> {
                 subtitle: Text('Ordenado pelos mais próximos'),
               ),
 
-              Container(
-                height: 260,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    CustomDestaqueCard(),
-                    CustomDestaqueCard(),
-                  ],
-                ),
-              ),
+              FutureBuilder(
+                  future: useCase.getAll(),
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.done){
+                      if(snapshot.error != null) {
+                        print(snapshot.error);
+                        return Container();
+                      } else {
+                        List<EstabelecimentoEntity> lista = snapshot.data;
+                        return Container(
+                          height: 260,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            //shrinkWrap: true,
+                            itemCount: lista.length,
+                            itemBuilder: (context, index) {
+                              EstabelecimentoEntity entity = lista[index];
+                              return CustomDestaqueCard(entity: entity,);
+                            },
+                          ),);
+                      }
+
+                    } else {
+                      return Container();
+                    }
+
+                  }),
 
               ListTile(
                 leading: Icon(Icons.trending_up, color: Colors.black),

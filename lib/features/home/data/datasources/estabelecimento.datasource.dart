@@ -21,13 +21,12 @@ class EstabelecimentoDataSource
 
   @override
   Future<void> delete(EstabelecimentoModel model) async {
-    //final _box = await box;
-    //box.delete(model.key);
+    (await box).delete(model.key);
   }
 
   @override
   Future<List<EstabelecimentoModel>> getAll() async {
-    //final _box = await box;
     return (await box).values.toList();
   }
+
 }

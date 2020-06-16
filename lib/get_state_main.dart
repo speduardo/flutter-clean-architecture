@@ -1,8 +1,45 @@
-/*
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+
+part 'get_state_main.g.dart';
+
+@HiveType(typeId: 2)
+class Model extends HiveObject {
+
+  @HiveField(0)
+  int id;
+
+  @HiveField(1)
+  String nome;
+
+  @HiveField(2)
+  String descricao;
+
+  Model({
+    this.id,
+    this.nome,
+    this.descricao,
+  });
+}
+
+Future<void> _initialiseHive() async {
+  final Directory appDocDirectory = await getApplicationDocumentsDirectory();
+  final path = appDocDirectory.path;
+
+  Hive.init(path);
+  Hive.registerAdapter(ModelAdapter());
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await _initialiseHive();
+
   runApp(GetMaterialApp(
     initialRoute: '/',
     namedRoutes: {
@@ -85,12 +122,12 @@ class Second extends StatelessWidget {
                 return Text('${_.sum}');
               },
             ),
-            GetX<ControllerX>(
+            /*GetX<ControllerX>(
               builder: (_) {
                 print("count data source");
                 return Text('${_.getCount()}');
               },
-            ),
+            ),*/
 
             // Using obx or Obx, you don't need of type. It's work only with RxController
             obx(() => Text(Get.find<ControllerX>().name.value)),
@@ -131,20 +168,24 @@ class Second extends StatelessWidget {
 }
 
 class Third extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         Get.find<ControllerX>().incrementList();
+        Entity entity = Entity(nome: 'Eduardo Pereira');
+        Get.find<ControllerX>().save(entity);
       }),
       appBar: AppBar(
         title: Text("Third ${Get.arguments}"),
       ),
       body: Center(child: GetX<ControllerX>(builder: (_) {
         return ListView.builder(
-            itemCount: _.list.length,
+            itemCount: _.getAll() != null ? _.getAll().length : 0,
             itemBuilder: (context, index) {
-              return Text("${_.list[index]}");
+              Entity entity = _.getAll()[index];
+              return Text("Nome: ${entity.nome}");
             });
       })),
     );
@@ -155,7 +196,8 @@ class SampleBind extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<DataSource>(() => DataSource());
-    Get.lazyPut<ControllerX>(() => ControllerX(DataSource()));
+    Get.lazyPut<Repository>(() => Repository(dataSource: DataSource()));
+    Get.lazyPut<ControllerX>(() => ControllerX(Repository(dataSource: DataSource())));
   }
 
   String call<SampleBind>() {
@@ -179,7 +221,7 @@ class Controller extends GetController {
     count++;
 
     /// use update method to update all count variables
-    update(this);
+    update();
   }
 }
 
@@ -216,9 +258,12 @@ class ControllerX extends RxController {
 
   increment() => count1.value++;
 
+  //Repository repository = Repository(dataSource: DataSource());
+
+  Repository _repository;
   DataSource _dataSource;
-  ControllerX(DataSource dataSource){
-    _dataSource = dataSource;
+  ControllerX(Repository repository){
+    this._repository = repository;
   }
 
   incrementDataSource() => _dataSource.increment();
@@ -227,23 +272,80 @@ class ControllerX extends RxController {
   increment2() => count2.value++;
 
   incrementList() => list.add(75);
+
+  getAll() {
+    return _repository.getAll();
+  }
+
+  save(Entity entity) {
+    _repository.save(entity);
+  }
+
+}
+
+class Repository {
+  DataSource dataSource;
+  List<Entity> lista;
+
+  Repository({this.dataSource});
+
+  save(Entity entity) {
+    Model model = Model(nome: entity.nome);
+    this.dataSource.save(model);
+  }
+
+  List<Entity> getAll() {
+
+    this.dataSource.getAll().then((value) {
+      List<Entity> _lista = List.generate(value.length, (index) {
+        return Entity(
+          nome: value[index].nome,
+        );
+      });
+      this.lista = _lista;
+    });
+
+    return lista;
+  }
 }
 
 class DataSource {
+  //var _box;
+
+  Future<Box<Model>> get box async {
+    return await Hive.openBox<Model>('Model');
+  }
+
+  save(Model model) async {
+    (await box).add(model);
+  }
+
+  Future<Model> getById(int index) async {
+    return (await box).getAt(index);
+  }
+
+  Future<List<Model>> getAll() async {
+    return (await box).values.toList();
+  }
+
   final entity = Entity();
 
   increment() => entity.count++;
 }
 
-class RxEntity {
-  final count = 0.obs;
-}
-
 class Entity {
 
-  Entity({int count});
-  final rx = RxEntity();
+  final _count = 0.obs;
+  final _nome = ''.obs;
 
-  int get count => rx.count.value;
-  set count(int value) =>rx.count.value = value;
-}*/
+  Entity({int count, String nome}){
+    this._nome.value = nome;
+  }
+  //final rx = RxEntity();
+
+  int get count => _count.value;
+  set count(int value) => _count.value = value;
+
+  String get nome => _nome.value;
+  set nome(String value) => _nome.value = value;
+}

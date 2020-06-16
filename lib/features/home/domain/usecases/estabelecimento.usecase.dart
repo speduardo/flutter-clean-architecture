@@ -5,23 +5,18 @@ import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelec
 class EstabelecimentoUseCase {
 
   EstabelecimentoRepository repository;
+  List<EstabelecimentoEntity> lista;
 
   EstabelecimentoUseCase({EstabelecimentoRepository repository}) {
     this.repository = repository;
   }
-  
-  Future<List<EstabelecimentoEntity>> getAll() async {
-    List<EstabelecimentoModel> list = await this.repository.getAll();
-    List<EstabelecimentoEntity> entityList = [];
-    EstabelecimentoEntity entity;
 
-    return List.generate(list.length, (index) {
-      return EstabelecimentoEntity(
-        nome: list[index].nome,
-        descricao: list[index].descricao,
-      );
-    });
+  Future<void> save(EstabelecimentoEntity entity) async {
+    this.repository.save(entity);
   }
 
+  Future<List<EstabelecimentoEntity>> getAll() async {
+    return await this.repository.getAll();
+  }
 
 }

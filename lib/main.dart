@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/core/themes/app.theme.dart';
+import 'package:fluttercleanarchitecture/features/home/data/datasources/estabelecimento.datasource.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repository.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/usecases/estabelecimento.usecase.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/detail.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guia.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guiadetail.view.dart';
@@ -26,9 +30,15 @@ void main() async {
 
   await _initialiseHive();
 
-  //Box<EstabelecimentoModel> estabelecimentoBox = await Hive.openBox<EstabelecimentoModel>('Estabelecimento');
-  //estabelecimentoBox.add(EstabelecimentoModel(nome: 'Dyonnim Lanches', descricao: 'Melhor lanchonete da cidade'));
-
+  EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
+  EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
+  /*useCase.save(EstabelecimentoEntity(
+      nome: 'Disk Pizza',
+      descricao: 'Melhor Pizzaria da cidade',
+      logo: 'assets/images/diskpizza-logo.jpg')
+  );*/
+  //List<EstabelecimentoEntity> listaEntities = await useCase.getAll();
+  //print('Lista Estabelecimentos: ${listaEntities}');
   runApp(MyApp());
 }
 

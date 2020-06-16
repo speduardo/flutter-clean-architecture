@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/core/themes/app.theme.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/detail.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guia.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guiadetail.view.dart';
@@ -7,8 +10,25 @@ import 'package:fluttercleanarchitecture/features/home/presentation/views/hero.v
 import 'package:fluttercleanarchitecture/features/reminder/presentation/views/reminder.view.dart';
 import 'package:get/get.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/home.view.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+Future<void> _initialiseHive() async {
+  final Directory appDocDirectory = await getApplicationDocumentsDirectory();
+  final path = appDocDirectory.path;
+
+  Hive.init(path);
+  Hive.registerAdapter(EstabelecimentoModelAdapter());
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await _initialiseHive();
+
+  //Box<EstabelecimentoModel> estabelecimentoBox = await Hive.openBox<EstabelecimentoModel>('Estabelecimento');
+  //estabelecimentoBox.add(EstabelecimentoModel(nome: 'Dyonnim Lanches', descricao: 'Melhor lanchonete da cidade'));
+
   runApp(MyApp());
 }
 

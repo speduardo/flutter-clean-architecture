@@ -1,5 +1,5 @@
 import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
-import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repocitory.dart';
+import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repository.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
 
 class EstabelecimentoUseCase {
@@ -15,7 +15,12 @@ class EstabelecimentoUseCase {
     List<EstabelecimentoEntity> entityList = [];
     EstabelecimentoEntity entity;
 
-    return [];
+    return List.generate(list.length, (index) {
+      return EstabelecimentoEntity(
+        nome: list[index].nome,
+        descricao: list[index].descricao,
+      );
+    });
   }
 
 

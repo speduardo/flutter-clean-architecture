@@ -3,8 +3,12 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttercleanarchitecture/features/home/data/datasources/estabelecimento.datasource.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/navigationtabs.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repository.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/usecases/estabelecimento.usecase.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/controllers/configurations.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.controller.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_categoria_button.dart';
@@ -27,7 +31,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   Box _estabelecimentoBox;
-  var path = Directory.current.path;
 
   int _selectedIndex = 0;
   int _currentIndex = 0;
@@ -50,9 +53,19 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    Hive
-      ..init(path)
-      ..registerAdapter(EstabelecimentoModelAdapter());
+
+    EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
+
+    EstabelecimentoModel model = EstabelecimentoModel(nome: 'Dyonnim Lanches', descricao: 'Melhor lanche da cidade');
+    dataSource.save(model);
+
+    EstabelecimentoRepository repository = EstabelecimentoRepository(dataSource: dataSource);
+    EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: repository);
+    Future<List<EstabelecimentoEntity>> lista = useCase.getAll();
+
+    lista.then((value) => value.forEach((element) {
+      print('Nome: ${element.nome}');
+    }));
   }
 
   @override

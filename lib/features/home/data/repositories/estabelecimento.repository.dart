@@ -9,8 +9,8 @@ class EstabelecimentoRepository implements IEstabelecimentoRepository {
   EstabelecimentoRepository({this.dataSource});
 
   @override
-  Future<List<EstabelecimentoModel>> getAll() async {
-    return await this.dataSource.getAll();
+  Future<List<EstabelecimentoModel>> getAll() {
+    return this.dataSource.getAll();
   }
 
 

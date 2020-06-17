@@ -1,17 +1,18 @@
 import 'package:fluttercleanarchitecture/core/presentation/controller/generic.controller.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/repositories/building.repository.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/usecases/building.usecase.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GenericController {
-  static HomeController get to => Get.find();
+class BuildingController extends GenericController {
+  static BuildingController get to => Get.find();
 
   BuildingUseCase buildingUseCase;
   //final ListX<EstabelecimentoEntity> listaEstabelecimento = List<EstabelecimentoEntity>().obs;
 
-  HomeController(BuildingUseCase estabelecimentoUseCase){
-    this.buildingUseCase = estabelecimentoUseCase;
+  BuildingController(BuildingUseCase buildingUseCase){
+    this.buildingUseCase = buildingUseCase;
     this.lista = List<BuildingEntity>().obs;
   }
 

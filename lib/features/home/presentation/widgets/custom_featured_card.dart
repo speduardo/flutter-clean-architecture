@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
 import 'package:get/get.dart';
 
-class CustomDestaqueCard extends StatefulWidget {
+class CustomFeaturedCard extends StatefulWidget {
+
   @override
-  _CustomDestaqueCardState createState() => _CustomDestaqueCardState();
+  _CustomFeaturedCardState createState() => _CustomFeaturedCardState();
 
-  EstabelecimentoEntity entity;
+  final String title;
+  final String description;
+  final String image;
+  final String _defaultImage = 'assets/images/banner-lanchonete.jpg';
 
-  CustomDestaqueCard({@required this.entity});
+  CustomFeaturedCard({@required this.title, @required this.description, @required this.image});
+
 }
 
-class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
-
+class _CustomFeaturedCardState extends State<CustomFeaturedCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -23,21 +26,26 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
             height: 150,
             width: 300,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
               image: DecorationImage(
-                image: AssetImage('${widget.entity.logo != null ? widget.entity.logo : 'assets/images/banner-lanchonete.jpg'}'),
+                image: AssetImage(
+                    '${widget.image != null ? widget.image : widget._defaultImage}'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding:
+            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             margin: EdgeInsets.symmetric(horizontal: 15),
             height: 110,
             width: 300,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0)),
               color: Colors.white,
             ),
             child: Row(
@@ -49,10 +57,15 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${widget.entity.nome}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                      Text(
+                        '${widget.title}',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: 5),
                       Text(
-                        '${widget.entity.descricao}',
+                        '${widget.description}',
                         style: TextStyle(color: Colors.grey[600]),
                         overflow: TextOverflow.fade,
                         maxLines: 1,
@@ -61,11 +74,31 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
                       SizedBox(height: 2),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.amber, size: 20,),
-                          Icon(Icons.star, color: Colors.amber, size: 20,),
-                          Icon(Icons.star_border, color: Colors.amber, size: 20,),
-                          Icon(Icons.star_border, color: Colors.amber, size: 20,),
-                          Icon(Icons.star_border, color: Colors.amber, size: 20,),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -78,10 +111,12 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
                     children: [
                       RaisedButton(
                         color: Colors.deepOrange,
-                        child: Icon(Icons.directions, color: Colors.white,),
+                        child: Icon(
+                          Icons.directions,
+                          color: Colors.white,
+                        ),
                         onPressed: () {
-                          setState(() {
-                          });
+                          setState(() {});
                         },
                       ),
                       Text(
@@ -104,6 +139,5 @@ class _CustomDestaqueCardState extends State<CustomDestaqueCard> {
         Get.toNamed("/destaque");
       },
     );
-
   }
 }

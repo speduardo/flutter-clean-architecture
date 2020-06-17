@@ -3,31 +3,29 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttercleanarchitecture/features/home/data/datasources/estabelecimento.datasource.dart';
-import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/navigationtabs.model.dart';
-import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repository.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/usecases/estabelecimento.usecase.dart';
-import 'package:fluttercleanarchitecture/features/home/presentation/controllers/configurations.dart';
-import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.controller.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/controllers/building.controller.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_categoria_button.dart';
-import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_destaque_card.dart';
-import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_fab_button.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_featured_card.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_image_card.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_populares_card.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_review_card.dart';
 import 'package:get/get.dart';
-import 'package:getflutter/components/button/gf_button.dart';
-import 'package:getflutter/getflutter.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
+
+  @override
+  StatefulElement createElement() {
+    BuildingController.to.getAll();
+    return super.createElement();
+  }
+
 }
 
 class _HomeViewState extends State<HomeView> {
@@ -49,19 +47,17 @@ class _HomeViewState extends State<HomeView> {
         title: "Sobre Nós", icon: Icons.supervised_user_circle, index: 3),
   ];
 
-  Future<List<EstabelecimentoEntity>> lista;
-  EstabelecimentoUseCase useCase;
+  //Future<List<BuildingEntity>> lista;
+  //BuildingUseCase useCase;
 
   @override
   void initState() {
     super.initState();
 
-    useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: EstabelecimentoDataSource()));
+    //useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: EstabelecimentoDataSource()));
     //Future<List<EstabelecimentoEntity>> lista = useCase.getAll();
 
     //lista.then((value) => print('Lista - : ${value[0].nome}'));
-
-
   }
 
   @override
@@ -76,13 +72,12 @@ class _HomeViewState extends State<HomeView> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.home),
         onPressed: () {
-          EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
-          EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
-          useCase.save(EstabelecimentoEntity(
-            nome: 'Disk Pizza',
-            descricao: 'Melhor Pizzaria da cidade',
-            logo: 'assets/images/diskpizza-logo.jpg')
-          );
+          BuildingEntity buildingEntity = BuildingEntity();
+          buildingEntity.name = 'Drogavida';
+          buildingEntity.description = 'Farmacia da cidade';
+          buildingEntity.image = 'assets/images/drogavida-logo.jpg';
+
+          BuildingController.to.save(buildingEntity);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -145,33 +140,22 @@ class _HomeViewState extends State<HomeView> {
                 subtitle: Text('Ordenado pelos mais próximos'),
               ),
 
-              FutureBuilder(
-                  future: useCase.getAll(),
-                  builder: (context, snapshot){
-                    if(snapshot.connectionState == ConnectionState.done){
-                      if(snapshot.error != null) {
-                        print(snapshot.error);
-                        return Container();
-                      } else {
-                        List<EstabelecimentoEntity> lista = snapshot.data;
-                        return Container(
-                          height: 260,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            //shrinkWrap: true,
-                            itemCount: lista.length,
-                            itemBuilder: (context, index) {
-                              EstabelecimentoEntity entity = lista[index];
-                              return CustomDestaqueCard(entity: entity,);
-                            },
-                          ),);
-                      }
-
-                    } else {
-                      return Container();
-                    }
-
-                  }),
+              GetX<BuildingController>(builder: (_) {
+                return Container(
+                  height: 260,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _.lista != null ? _.lista.length : 0,
+                    itemBuilder: (context, index) {
+                      BuildingEntity entity = _.lista[index];
+                      return CustomFeaturedCard(
+                          title: entity.name,
+                          description: entity.description,
+                          image: entity.image);
+                    },
+                  ),
+                );
+              }),
 
               ListTile(
                 leading: Icon(Icons.trending_up, color: Colors.black),

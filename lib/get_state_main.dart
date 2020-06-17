@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -170,11 +170,19 @@ class Second extends StatelessWidget {
 class Third extends StatelessWidget {
 
   @override
+  StatelessElement createElement() {
+    Get.find<ControllerX>().getAll();
+    return super.createElement();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         Get.find<ControllerX>().incrementList();
-        Entity entity = Entity(nome: 'Eduardo Pereira');
+        Entity entity = Entity();
+        entity.nome = 'Bruno Alves';
+
         Get.find<ControllerX>().save(entity);
       }),
       appBar: AppBar(
@@ -182,9 +190,9 @@ class Third extends StatelessWidget {
       ),
       body: Center(child: GetX<ControllerX>(builder: (_) {
         return ListView.builder(
-            itemCount: _.getAll() != null ? _.getAll().length : 0,
+            itemCount: _.lista != null ? _.lista.length : 0,
             itemBuilder: (context, index) {
-              Entity entity = _.getAll()[index];
+              Entity entity = _.lista[index];
               return Text("Nome: ${entity.nome}");
             });
       })),
@@ -195,8 +203,8 @@ class Third extends StatelessWidget {
 class SampleBind extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DataSource>(() => DataSource());
-    Get.lazyPut<Repository>(() => Repository(dataSource: DataSource()));
+    //Get.lazyPut<DataSource>(() => DataSource());
+    //Get.lazyPut<Repository>(() => Repository(dataSource: DataSource()));
     Get.lazyPut<ControllerX>(() => ControllerX(Repository(dataSource: DataSource())));
   }
 
@@ -229,6 +237,7 @@ class ControllerX extends RxController {
   final count1 = 0.obs;
   final count2 = 0.obs;
   final list = [56].obs;
+  final ListX<Entity> lista = List<Entity>().obs;
 
   /// Once the controller has entered memory, onInit will be called.
   /// It is preferable to use onInit instead of class constructors or initState method.
@@ -240,16 +249,16 @@ class ControllerX extends RxController {
   @override
   onInit() {
     /// Called every time the variable $_ is changed
-    ever(count1, (_) => print("$_ has been changed"));
+    ever(lista, (_) => print("$_ has been changed"));
 
     /// Called first time the variable $_ is changed
-    once(count1, (_) => print("$_ was changed once"));
+    once(lista, (_) => print("$_ was changed once"));
 
     /// Anti DDos - Called every time the user stops typing for 1 second, for example.
-    debounce(count1, (_) => print("debouce$_"), time: Duration(seconds: 1));
+    debounce(lista, (_) => print("debouce$_"), time: Duration(seconds: 1));
 
     /// Ignore all changes within 1 second.
-    interval(count1, (_) => print("interval $_"), time: Duration(seconds: 1));
+    interval(lista, (_) => print("interval $_"), time: Duration(seconds: 1));
   }
 
   int get sum => count1.value + count2.value;
@@ -274,46 +283,47 @@ class ControllerX extends RxController {
   incrementList() => list.add(75);
 
   getAll() {
-    return _repository.getAll();
+    this._repository.getAll().then((value) {
+      List<Entity> _lista = List.generate(value.length, (index) {
+        Entity entity = Entity();
+        entity.nome = value[index].nome;
+        return entity;
+      });
+
+      lista.addAllIf(_lista != null, _lista);
+    });
+
+    //return lista;
   }
 
   save(Entity entity) {
-    _repository.save(entity);
+    Model model = Model(nome: entity.nome);
+    _repository.save(model);
+    lista.add(entity);
   }
 
 }
 
 class Repository {
   DataSource dataSource;
-  List<Entity> lista;
 
   Repository({this.dataSource});
 
-  save(Entity entity) {
-    Model model = Model(nome: entity.nome);
+  save(Model model) {
     this.dataSource.save(model);
   }
 
-  List<Entity> getAll() {
-
-    this.dataSource.getAll().then((value) {
-      List<Entity> _lista = List.generate(value.length, (index) {
-        return Entity(
-          nome: value[index].nome,
-        );
-      });
-      this.lista = _lista;
-    });
-
-    return lista;
+  Future<List<Model>> getAll() async {
+    return this.dataSource.getAll();
   }
 }
 
 class DataSource {
-  //var _box;
+
+  final _boxName = 'Model';
 
   Future<Box<Model>> get box async {
-    return await Hive.openBox<Model>('Model');
+    return await Hive.openBox<Model>(_boxName);
   }
 
   save(Model model) async {
@@ -333,14 +343,17 @@ class DataSource {
   increment() => entity.count++;
 }
 
+/*class RxEntity {
+  final count = 0.obs;
+  final nome = ''.obs;
+}*/
+
 class Entity {
 
   final _count = 0.obs;
   final _nome = ''.obs;
 
-  Entity({int count, String nome}){
-    this._nome.value = nome;
-  }
+  Entity({int count, String nome});
   //final rx = RxEntity();
 
   int get count => _count.value;

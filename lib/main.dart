@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/core/themes/app.theme.dart';
-import 'package:fluttercleanarchitecture/features/home/data/datasources/estabelecimento.datasource.dart';
-import 'package:fluttercleanarchitecture/features/home/data/models/estabelecimento.model.dart';
-import 'package:fluttercleanarchitecture/features/home/data/repositories/estabelecimento.repository.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/entities/estabelecimento.entity.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/usecases/estabelecimento.usecase.dart';
+import 'package:fluttercleanarchitecture/features/home/data/datasources/building.datasource.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/repositories/building.repository.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/usecases/building.usecase.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.bind.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/detail.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guia.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guiadetail.view.dart';
@@ -22,7 +23,7 @@ Future<void> _initialiseHive() async {
   final path = appDocDirectory.path;
 
   Hive.init(path);
-  Hive.registerAdapter(EstabelecimentoModelAdapter());
+  Hive.registerAdapter(BuildingModelAdapter());
 }
 
 void main() async {
@@ -30,8 +31,8 @@ void main() async {
 
   await _initialiseHive();
 
-  EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
-  EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
+  //EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
+  //EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
   /*useCase.save(EstabelecimentoEntity(
       nome: 'Disk Pizza',
       descricao: 'Melhor Pizzaria da cidade',
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: appThemeData[AppTheme.WhiteLight],
       namedRoutes: {
-        '/': GetRoute(page: HomeView()),
+        '/': GetRoute(page: HomeView(), bindings: [HomeBind()]),
         '/destaque': GetRoute(page: DetailView()),
       },
       //home: HomeView(),

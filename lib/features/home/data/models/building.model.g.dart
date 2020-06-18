@@ -28,13 +28,14 @@ class BuildingModelAdapter extends TypeAdapter<BuildingModel> {
       city: fields[7] as String,
       state: fields[8] as String,
       phone: fields[11] as String,
+      categoryModel: fields[12] as dynamic,
     )..id = fields[0] as int;
   }
 
   @override
   void write(BinaryWriter writer, BuildingModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
@@ -57,6 +58,8 @@ class BuildingModelAdapter extends TypeAdapter<BuildingModel> {
       ..write(obj.neighborhood)
       ..writeByte(11)
       ..write(obj.phone)
+      ..writeByte(12)
+      ..write(obj.categoryModel)
       ..writeByte(0)
       ..write(obj.id);
   }

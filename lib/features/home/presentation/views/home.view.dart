@@ -149,9 +149,14 @@ class _HomeViewState extends State<HomeView> {
                     itemBuilder: (context, index) {
                       BuildingEntity entity = _.lista[index];
                       return CustomFeaturedCard(
-                          title: entity.name,
-                          description: entity.description,
-                          image: entity.image);
+                        title: entity.name,
+                        description: entity.description,
+                        image: entity.image,
+                        onTap: () {
+                          print('Destaque tapped');
+                          Get.toNamed("/destaque");
+                        },
+                      );
                     },
                   ),
                 );

@@ -1,4 +1,5 @@
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
 import 'package:hive/hive.dart';
 
 part 'building.model.g.dart';
@@ -39,6 +40,9 @@ class BuildingModel extends GenericModel {
   @HiveField(11)
   String phone;
 
+  @HiveField(12)
+  CategoryModel categoryModel;
+
   BuildingModel({
     this.name,
     this.description,
@@ -51,6 +55,7 @@ class BuildingModel extends GenericModel {
     this.city,
     this.state,
     this.phone,
+    this.categoryModel,
   });
 
 }

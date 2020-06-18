@@ -9,9 +9,10 @@ class CustomFeaturedCard extends StatefulWidget {
   final String title;
   final String description;
   final String image;
+  final GestureTapCallback onTap;
   final String _defaultImage = 'assets/images/banner-lanchonete.jpg';
 
-  CustomFeaturedCard({@required this.title, @required this.description, @required this.image});
+  CustomFeaturedCard({@required this.title, @required this.description, @required this.image, this.onTap});
 
 }
 
@@ -134,10 +135,7 @@ class _CustomFeaturedCardState extends State<CustomFeaturedCard> {
           ),
         ],
       ),
-      onTap: () {
-        print('Destaque tapped');
-        Get.toNamed("/destaque");
-      },
+      onTap: widget.onTap,
     );
   }
 }

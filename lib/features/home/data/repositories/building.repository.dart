@@ -1,9 +1,8 @@
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
-import 'package:fluttercleanarchitecture/core/domain/repositories/igeneric.repository.dart';
 import 'package:fluttercleanarchitecture/features/home/data/datasources/building.datasource.dart';
-import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/repositories/ibuilding.repository.dart';
 
-class BuildingRepository implements IGenericRepository {
+class BuildingRepository implements IBuildingRepository {
 
   final BuildingDataSource dataSource;
 

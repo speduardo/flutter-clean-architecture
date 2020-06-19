@@ -21,7 +21,7 @@ class BuildingController extends GenericController {
   getAll() {
     this.buildingUseCase.getAll().then((value) {
       List<BuildingEntity> _list = List.generate(value.length, (index) {
-        return populateEntity(value[index]);
+        return value[index].toEntity();
       });
 
       lista.addAllIf(_list != null, _list);
@@ -30,44 +30,12 @@ class BuildingController extends GenericController {
   }
 
   save(BuildingEntity entity) {
-    BuildingModel buildingModel = populateModel(entity);
+    BuildingModel buildingModel = entity.toModel();
 
     this.buildingUseCase.save(buildingModel).then((value) {
       lista.add(entity);
     });
 
-  }
-
-  BuildingModel populateModel(BuildingEntity entity) {
-    CategoryModel categoryModel = CategoryModel(
-      name: entity.categoryEntity.name,
-      description: entity.categoryEntity.description,
-      image: entity.categoryEntity.image,
-    );
-
-    BuildingModel buildingModel = BuildingModel(
-      name: entity.name,
-      description: entity.description,
-      image: entity.image,
-      categoryModel: categoryModel,
-    );
-
-    return buildingModel;
-  }
-
-  BuildingEntity populateEntity(BuildingModel model) {
-    CategoryEntity categoryEntity = CategoryEntity();
-    categoryEntity.name = model.categoryModel.name;
-    categoryEntity.description = model.categoryModel.name;
-    categoryEntity.image = model.categoryModel.image;
-
-    BuildingEntity entity = BuildingEntity();
-    entity.name = model.name;
-    entity.description = model.description;
-    entity.image = model.image;
-    entity.categoryEntity = categoryEntity;
-
-    return entity;
   }
 
 }

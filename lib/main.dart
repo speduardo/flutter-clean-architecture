@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/core/themes/app.theme.dart';
 import 'package:fluttercleanarchitecture/features/home/data/datasources/building.datasource.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/repositories/building.repository.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/usecases/building.usecase.dart';
@@ -24,6 +25,7 @@ Future<void> _initialiseHive() async {
 
   Hive.init(path);
   Hive.registerAdapter(BuildingModelAdapter());
+  Hive.registerAdapter(CategoryModelAdapter());
 }
 
 void main() async {

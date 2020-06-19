@@ -1,13 +1,12 @@
 import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
-import 'package:fluttercleanarchitecture/features/home/data/repositories/building.repository.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/repositories/ibuilding.repository.dart';
 
 class BuildingUseCase {
 
-  BuildingRepository repository;
-  List<BuildingEntity> lista;
+  IBuildingRepository repository;
+  //List<BuildingEntity> lista;
 
-  BuildingUseCase({BuildingRepository repository}) {
+  BuildingUseCase({IBuildingRepository repository}) {
     this.repository = repository;
   }
 

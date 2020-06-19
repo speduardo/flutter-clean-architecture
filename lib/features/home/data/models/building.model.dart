@@ -1,5 +1,6 @@
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
 import 'package:hive/hive.dart';
 
 part 'building.model.g.dart';
@@ -58,4 +59,13 @@ class BuildingModel extends GenericModel {
     this.categoryModel,
   });
 
+  BuildingEntity toEntity() {
+    BuildingEntity entity = BuildingEntity();
+    entity.name = this.name;
+    entity.description = this.description;
+    entity.image = this.image;
+    entity.categoryEntity = this.categoryModel != null ? this.categoryModel.toEntity() : null;
+
+    return entity;
+  }
 }

@@ -9,6 +9,7 @@ import 'package:fluttercleanarchitecture/features/home/presentation/controllers/
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_categoria_button.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_featured_card.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_image_card.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_listtitle_menu.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_populares_card.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/widgets/custom_review_card.dart';
 import 'package:get/get.dart';
@@ -43,8 +44,7 @@ class _HomeViewState extends State<HomeView> {
     NavigationTabs(title: "Guia", icon: Icons.store, index: 0),
     NavigationTabs(title: "Anuncie Aqui", icon: Icons.announcement, index: 1),
     NavigationTabs(title: "Fidelidade", icon: Icons.star, index: 2),
-    NavigationTabs(
-        title: "Sobre Nós", icon: Icons.supervised_user_circle, index: 3),
+    NavigationTabs(title: "Sobre Nós", icon: Icons.supervised_user_circle, index: 3),
   ];
 
   //Future<List<BuildingEntity>> lista;
@@ -68,7 +68,38 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: true,
         elevation: 0,
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[
+                    Colors.deepOrange,
+                    Colors.orangeAccent
+                  ]),
+                ),
+                child: Container(
+                  child: Column(
+                    children: [
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        elevation: 10,
+                        child: Padding(padding: EdgeInsets.all(8.0),
+                        child: Image.asset('assets/images/user-logo.png', width: 80, height: 80,),),
+                      ),
+                      Padding(padding: EdgeInsets.all(8.0),
+                      child: Text('Eduardo Pereira', style: TextStyle(color: Colors.white),),),
+                    ],
+                  ),
+                ),
+            ),
+            CustomListTitleMenu(icon: Icons.person, text: 'Person', onTap: ()=>{}),
+            CustomListTitleMenu(icon: Icons.notifications, text: 'Notification',),
+            CustomListTitleMenu(icon: Icons.settings, text: 'Setings',),
+            CustomListTitleMenu(icon: Icons.category, text: 'Categoria', onTap: () {Get.toNamed("/categoriaListView");},),
+          ],
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.home),
         onPressed: () {

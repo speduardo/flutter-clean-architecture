@@ -9,6 +9,9 @@ import 'package:fluttercleanarchitecture/features/home/data/repositories/buildin
 import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/usecases/building.usecase.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.bind.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.detailview.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.formview.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.listview.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/detail.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guia.view.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/guiadetail.view.dart';
@@ -33,15 +36,6 @@ void main() async {
 
   await _initialiseHive();
 
-  //EstabelecimentoDataSource dataSource = EstabelecimentoDataSource();
-  //EstabelecimentoUseCase useCase = EstabelecimentoUseCase(repository: EstabelecimentoRepository(dataSource: dataSource));
-  /*useCase.save(EstabelecimentoEntity(
-      nome: 'Disk Pizza',
-      descricao: 'Melhor Pizzaria da cidade',
-      logo: 'assets/images/diskpizza-logo.jpg')
-  );*/
-  //List<EstabelecimentoEntity> listaEntities = await useCase.getAll();
-  //print('Lista Estabelecimentos: ${listaEntities}');
   runApp(MyApp());
 }
 
@@ -57,6 +51,9 @@ class MyApp extends StatelessWidget {
       namedRoutes: {
         '/': GetRoute(page: HomeView(), bindings: [HomeBind()]),
         '/destaque': GetRoute(page: DetailView()),
+        '/categoriaListView': GetRoute(page: CategoryListView()),
+        '/categoriaDetailView': GetRoute(page: CategoryDetatilView()),
+        '/categoriaFormView': GetRoute(page: CategoryFormView()),
       },
       //home: HomeView(),
     );

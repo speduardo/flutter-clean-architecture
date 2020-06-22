@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercleanarchitecture/core/themes/app.theme.dart';
 import 'package:fluttercleanarchitecture/features/home/data/datasources/building.datasource.dart';
@@ -26,7 +27,10 @@ Future<void> _initialiseHive() async {
   final Directory appDocDirectory = await getApplicationDocumentsDirectory();
   final path = appDocDirectory.path;
 
-  Hive.init(path);
+  if(!kIsWeb) {
+    Hive.init(path);
+  }
+
   Hive.registerAdapter(BuildingModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
 }

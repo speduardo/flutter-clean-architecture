@@ -176,9 +176,9 @@ class _HomeViewState extends State<HomeView> {
                   height: 260,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _.lista != null ? _.lista.length : 0,
+                    itemCount: _.list != null ? _.list.length : 0,
                     itemBuilder: (context, index) {
-                      BuildingEntity entity = _.lista[index];
+                      BuildingEntity entity = _.list[index];
                       return CustomFeaturedCard(
                         title: entity.name,
                         description: entity.description,

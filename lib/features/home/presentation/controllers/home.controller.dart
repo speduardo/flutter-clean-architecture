@@ -12,7 +12,7 @@ class HomeController extends GenericController {
 
   HomeController(BuildingUseCase estabelecimentoUseCase){
     this.buildingUseCase = estabelecimentoUseCase;
-    this.lista = List<BuildingEntity>().obs;
+    this.list = List<BuildingEntity>().obs;
   }
 
   getAll() {
@@ -26,7 +26,7 @@ class HomeController extends GenericController {
         return entity;
       });
 
-      lista.addAllIf(_lista != null, _lista);
+      list.addAllIf(_lista != null, _lista);
     });
 
   }
@@ -39,7 +39,7 @@ class HomeController extends GenericController {
     );
 
     this.buildingUseCase.save(model).then((value) {
-      lista.add(entity);
+      list.add(entity);
     });
 
   }

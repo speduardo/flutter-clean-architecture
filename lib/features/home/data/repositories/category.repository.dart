@@ -1,12 +1,12 @@
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
-import 'package:fluttercleanarchitecture/features/home/data/datasources/building.datasource.dart';
-import 'package:fluttercleanarchitecture/features/home/domain/repositories/ibuilding.repository.dart';
+import 'package:fluttercleanarchitecture/features/home/data/datasources/category.datasource.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/repositories/icategory.repository.dart';
 
-class BuildingRepository implements IBuildingRepository {
+class CategoryRepository implements ICategoryRepository {
 
-  final BuildingDataSource dataSource;
+  final CategoryDataSource dataSource;
 
-  BuildingRepository({this.dataSource});
+  CategoryRepository({this.dataSource});
 
   @override
   Future<void> save(GenericModel model) {

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fluttercleanarchitecture/features/home/domain/entities/category.entity.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/controllers/category.controller.dart';
 import 'package:get/get.dart';
 
 class CategoryListView extends StatefulWidget {
   @override
   _CategoryListViewState createState() => _CategoryListViewState();
+
+  @override
+  StatefulElement createElement() {
+    CategoryController.to.getAll();
+    return super.createElement();
+  }
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
@@ -45,7 +53,7 @@ class _CategoryListViewState extends State<CategoryListView> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          Get.toNamed("/categoriaFormView");
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
@@ -59,16 +67,17 @@ class _CategoryListViewState extends State<CategoryListView> {
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                    Colors.blue.shade900,
-                    Colors.lightBlue
-                  ]),
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.blue.shade900, Colors.lightBlue]),
                 ),
               ),
-              title: Text('Categorias', style: TextStyle(color: Colors.white),),
+              title: Text(
+                'Categorias',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
-         /* SliverFixedExtentList(
+          /* SliverFixedExtentList(
             itemExtent: 50,
             delegate: SliverChildListDelegate([
               Container(color: Colors.red),
@@ -76,26 +85,41 @@ class _CategoryListViewState extends State<CategoryListView> {
               Container(color: Colors.blue),
             ]),
           ),*/
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Container(
-                  height: 80,
-                  alignment: Alignment.center,
-                  color: Colors.blue[100 * (index % 9)],
-                  child: ListTile(
-                    onTap: () {
-                      print('onTap categoria $index');
-                      Get.toNamed("/categoriaDetailView?name="+categories[index]['name']);
+          GetX<CategoryController>(builder: (_) {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final categoryEntity = (_.list[index] as CategoryEntity);
+                  return Dismissible(
+                    key: Key(categoryEntity.name),
+                    onDismissed: (direction) {
+                      CategoryController.to.delete(categoryEntity);
+
+                      Get.snackbar('Informação', 'Item excluido');
                     },
-                    leading: Image(image: AssetImage(categories[index]['iconPath']),),
-                    title: Text(categories[index]['name']),
-                  ),
-                );
-              },
-              childCount: categories.length,
-            ),
-          ),
+                    background: Container(color: Colors.red),
+                    child: Container(
+                      height: 80,
+                      alignment: Alignment.center,
+                      color: Colors.blue[100 * (index % 9)],
+                      child: ListTile(
+                        onTap: () {
+                          print('onTap categoria $index');
+                          Get.toNamed(
+                              "/categoriaDetailView?id=${categoryEntity.id}");
+                        },
+                        leading: Image(
+                          image: AssetImage(categories[index]['iconPath']),
+                        ),
+                        title: Text(categoryEntity.name),
+                      ),
+                    ),
+                  );
+                },
+                childCount: _.list.length,
+              ),
+            );
+          }),
           /*SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (context, index) {

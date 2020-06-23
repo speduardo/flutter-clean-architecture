@@ -15,7 +15,7 @@ class BuildingController extends GenericController {
 
   BuildingController(BuildingUseCase buildingUseCase){
     this.buildingUseCase = buildingUseCase;
-    this.lista = List<BuildingEntity>().obs;
+    this.list = List<BuildingEntity>().obs;
   }
 
   getAll() {
@@ -24,7 +24,7 @@ class BuildingController extends GenericController {
         return value[index].toEntity();
       });
 
-      lista.addAllIf(_list != null, _list);
+      list.addAllIf(_list != null, _list);
     });
 
   }
@@ -33,7 +33,7 @@ class BuildingController extends GenericController {
     BuildingModel buildingModel = entity.toModel();
 
     this.buildingUseCase.save(buildingModel).then((value) {
-      lista.add(entity);
+      list.add(entity);
     });
 
   }

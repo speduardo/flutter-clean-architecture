@@ -9,7 +9,7 @@ import 'package:fluttercleanarchitecture/features/home/data/models/category.mode
 import 'package:fluttercleanarchitecture/features/home/data/repositories/building.repository.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/usecases/building.usecase.dart';
-import 'package:fluttercleanarchitecture/features/home/presentation/controllers/home.bind.dart';
+import 'package:fluttercleanarchitecture/features/home/presentation/controllers/controller.bind.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.detailview.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.formview.dart';
 import 'package:fluttercleanarchitecture/features/home/presentation/views/category/category.listview.dart';
@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: appThemeData[AppTheme.WhiteLight],
       namedRoutes: {
-        '/': GetRoute(page: HomeView(), bindings: [HomeBind()]),
+        '/': GetRoute(page: HomeView(), bindings: [ControllerBind()]),
         '/destaque': GetRoute(page: DetailView()),
-        '/categoriaListView': GetRoute(page: CategoryListView()),
+        '/categoriaListView': GetRoute(page: CategoryListView(), bindings: [ControllerBind()]),
         '/categoriaDetailView': GetRoute(page: CategoryDetatilView()),
         '/categoriaFormView': GetRoute(page: CategoryFormView()),
       },

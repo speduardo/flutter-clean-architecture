@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   font_awesome_flutter:
   get: ^2.10.2
+  hasura_connect: ^1.2.2+1
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
   path_provider: ^1.6.10

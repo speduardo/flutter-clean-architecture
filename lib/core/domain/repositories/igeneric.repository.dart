@@ -6,6 +6,6 @@ abstract class IGenericRepository<T extends GenericModel> {
 
   Future<void> delete(T model);
 
-  Future<List<T>> getAll();
+  Stream<List<T>> getAll();
 
 }

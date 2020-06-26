@@ -16,14 +16,15 @@ class CategoryController extends GenericController {
   }
 
   getAll() {
-    this.categoryUseCase.getAll().then((value) {
+    /*this.categoryUseCase.getAll().then((value) {
       List<CategoryEntity> entityList = List.generate(value.length, (index) {
         return value[index].toEntity();
       });
 
       list.addAllIf(entityList != null, entityList);
-    });
-
+    });*/
+    Stream<List<CategoryModel>> lista = this.categoryUseCase.getAll();
+    return lista;
   }
 
   save() {

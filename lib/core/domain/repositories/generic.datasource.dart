@@ -8,6 +8,6 @@ abstract class IGenericDataSource<T extends HiveObject> {
 
   Future<void> delete(T objectToDelete);
 
-  Future<List<T>> getAll();
+  Stream<List<T>> getAll();
 
 }

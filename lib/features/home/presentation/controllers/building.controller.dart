@@ -19,13 +19,15 @@ class BuildingController extends GenericController {
   }
 
   getAll() {
-    this.buildingUseCase.getAll().then((value) {
+    /*this.buildingUseCase.getAll().then((value) {
       List<BuildingEntity> _list = List.generate(value.length, (index) {
         return value[index].toEntity();
       });
 
       list.addAllIf(_list != null, _list);
-    });
+    });*/
+
+    return this.buildingUseCase.getAll();
 
   }
 

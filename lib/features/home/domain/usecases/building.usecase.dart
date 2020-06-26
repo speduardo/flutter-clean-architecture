@@ -14,8 +14,8 @@ class BuildingUseCase {
     this.repository.save(model);
   }
 
-  Future<List<BuildingModel>> getAll() async {
-    return await this.repository.getAll();
+  Stream<List<BuildingModel>> getAll() {
+    return this.repository.getAll();
   }
 
 }

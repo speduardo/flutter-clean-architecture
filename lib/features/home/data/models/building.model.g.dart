@@ -28,8 +28,8 @@ class BuildingModelAdapter extends TypeAdapter<BuildingModel> {
       city: fields[7] as String,
       state: fields[8] as String,
       phone: fields[11] as String,
-      categoryModel: fields[12] as dynamic,
-    )..id = fields[0] as int;
+      categoryModel: fields[12] as CategoryModel,
+    )..id = fields[0] as String;
   }
 
   @override

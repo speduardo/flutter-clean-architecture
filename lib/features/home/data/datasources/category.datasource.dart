@@ -1,15 +1,17 @@
 import 'package:fluttercleanarchitecture/core/domain/repositories/generic.datasource.dart';
-import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
+import 'package:hasura_connect/hasura_connect.dart';
 import 'package:hive/hive.dart';
 
 class CategoryDataSource implements IGenericDataSource<CategoryModel> {
-  final String boxName;
-  Box<CategoryModel> _box;
+  //final HasuraConnect _hasuraConnect;
 
-  CategoryDataSource({this.boxName='Category'});
+  //final String boxName = 'Category';
+  //Box<CategoryModel> _box;
 
-  @override
+  CategoryDataSource(this._hasuraConnect);
+
+/*  @override
   Future<Box<CategoryModel>> get box async {
     _box = await Hive.openBox<CategoryModel>(this.boxName);
     return _box;
@@ -26,8 +28,23 @@ class CategoryDataSource implements IGenericDataSource<CategoryModel> {
   }
 
   @override
-  Future<List<CategoryModel>> getAll() async {
-    return (await box).values.toList();
+  Stream<List<CategoryModel>> getAll() {
+    var query = '''
+    subscription MySubscription {
+      categories(order_by: {name: asc}) {
+        id
+        name
+        description
+      }
+    }
+    ''';
+
+    var snapshot = _hasuraConnect.subscription(query);
+
+    return snapshot.map((data) => CategoryModel.fromJsonList(data['data']['categories']));
   }
 
+  Future<List<CategoryModel>> getCategories() {
+    return null;
+  }*/
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/entities/building.entity.dart';
@@ -45,6 +47,7 @@ class BuildingModel extends GenericModel {
   CategoryModel categoryModel;
 
   BuildingModel({
+    id,
     this.name,
     this.description,
     this.image,
@@ -57,7 +60,7 @@ class BuildingModel extends GenericModel {
     this.state,
     this.phone,
     this.categoryModel,
-  });
+  }) : super(id);
 
   BuildingEntity toEntity() {
     BuildingEntity entity = BuildingEntity();
@@ -68,4 +71,40 @@ class BuildingModel extends GenericModel {
 
     return entity;
   }
+
+  factory BuildingModel.fromJson(String str) => BuildingModel.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory BuildingModel.fromMap(Map<String, dynamic> json) => BuildingModel(
+    name: json['name'],
+    description: json['description'],
+    image: json['image'],
+    address: json['address'],
+    addressNumber: json['address_number'],
+    addressCode: json['address_code'],
+    addressComplement: json['address_complement'],
+    neighborhood: json['district_id'],
+    phone: json['phone'],
+    categoryModel: json['category_id'],
+  );
+
+  Map<String, dynamic> toMap() => {
+    'name': name,
+    'description': description,
+    'image': image,
+    'address': address,
+    'addressNumber': addressNumber,
+    'addressCode': addressCode,
+    'addressComplement': addressComplement,
+    'neighborhood': neighborhood,
+    'phone': phone,
+    'categoryModel': categoryModel,
+  };
+
+  static List<BuildingModel> fromJsonList(List list) {
+    if(list.isEmpty) return null;
+    return list.map<BuildingModel>((item) => BuildingModel.fromMap(item)).toList();
+  }
+
 }

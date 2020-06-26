@@ -3,8 +3,8 @@ import 'package:hive/hive.dart';
 class GenericModel extends HiveObject {
 
   @HiveField(0)
-  int id;
+  String id;
 
-  GenericModel({this.id});
+  GenericModel(String id);
 
 }

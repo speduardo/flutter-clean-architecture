@@ -19,8 +19,8 @@ class BuildingRepository implements IBuildingRepository {
   }
 
   @override
-  Future<List<GenericModel>> getAll() async {
-    return await this.dataSource.getAll();
+  Stream<List<GenericModel>> getAll() {
+    return this.dataSource.getAll();
   }
 
 }

@@ -16,7 +16,7 @@ class HomeController extends GenericController {
   }
 
   getAll() {
-    this.buildingUseCase.getAll().then((value) {
+    /*this.buildingUseCase.getAll().then((value) {
       List<BuildingEntity> _lista = List.generate(value.length, (index) {
         BuildingEntity entity = BuildingEntity();
         entity.name = value[index].name;
@@ -27,7 +27,9 @@ class HomeController extends GenericController {
       });
 
       list.addAllIf(_lista != null, _lista);
-    });
+    });*/
+
+    return this.buildingUseCase.getAll();
 
   }
 

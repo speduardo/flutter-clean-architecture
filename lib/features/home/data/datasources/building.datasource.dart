@@ -1,12 +1,15 @@
 import 'package:fluttercleanarchitecture/core/domain/repositories/generic.datasource.dart';
 import 'package:fluttercleanarchitecture/features/home/data/models/building.model.dart';
+import 'package:hasura_connect/hasura_connect.dart';
 import 'package:hive/hive.dart';
 
 class BuildingDataSource implements IGenericDataSource<BuildingModel> {
-  final String boxName;
+  final HasuraConnect _hasuraConnect;
+
+  final String boxName = 'Building';
   Box<BuildingModel> _box;
 
-  BuildingDataSource({this.boxName='Building'});
+  BuildingDataSource(this._hasuraConnect);
 
   @override
   Future<Box<BuildingModel>> get box async {
@@ -25,8 +28,20 @@ class BuildingDataSource implements IGenericDataSource<BuildingModel> {
   }
 
   @override
-  Future<List<BuildingModel>> getAll() async {
-    return (await box).values.toList();
+  Stream<List<BuildingModel>> getAll() {
+    var query = '''
+    subscription MySubscription {
+      categories(order_by: {name: asc}) {
+        id
+        name
+        description
+      }
+    }
+    ''';
+
+    var snapshot = _hasuraConnect.subscription(query);
+
+    return snapshot.map((data) => BuildingModel.fromJsonList(data['data']['categories']));
   }
 
 }

@@ -13,8 +13,8 @@ class CategoryUseCase<T extends CategoryModel> {
     this.repository.save(model);
   }
 
-  Future<List<T>> getAll() async {
-    return await this.repository.getAll();
+  Stream<List<T>> getAll() {
+    return this.repository.getAll();
   }
 
   Future<void> delete(T model) async {

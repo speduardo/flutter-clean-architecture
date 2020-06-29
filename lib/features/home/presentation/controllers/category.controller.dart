@@ -15,6 +15,16 @@ class CategoryController extends GenericController {
     this.entity = CategoryEntity();
   }
 
+  getCategories() {
+    this.categoryUseCase.getCategories().then((value) {
+      List<CategoryEntity> entityList = List.generate(value.length, (index) {
+        return value[index].toEntity();
+      });
+
+      list.addAllIf(entityList != null, entityList);
+    });
+  }
+
   getAll() {
     /*this.categoryUseCase.getAll().then((value) {
       List<CategoryEntity> entityList = List.generate(value.length, (index) {

@@ -9,7 +9,8 @@ class CategoryListView extends StatefulWidget {
 
   @override
   StatefulElement createElement() {
-    CategoryController.to.getAll();
+    //CategoryController.to.getAll();
+    CategoryController.to.getCategories();
     return super.createElement();
   }
 }

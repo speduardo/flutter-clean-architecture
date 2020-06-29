@@ -21,4 +21,8 @@ class CategoryUseCase<T extends CategoryModel> {
     this.repository.delete(model);
   }
 
+  Future<List<CategoryModel>> getCategories() {
+    return this.repository.getCategories();
+  }
+
 }

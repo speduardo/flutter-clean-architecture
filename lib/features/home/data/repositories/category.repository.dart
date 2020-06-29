@@ -1,5 +1,6 @@
 import 'package:fluttercleanarchitecture/core/data/models/generic.model.dart';
 import 'package:fluttercleanarchitecture/features/home/data/datasources/category.datasource.dart';
+import 'package:fluttercleanarchitecture/features/home/data/models/category.model.dart';
 import 'package:fluttercleanarchitecture/features/home/domain/repositories/icategory.repository.dart';
 
 class CategoryRepository implements ICategoryRepository {
@@ -21,6 +22,10 @@ class CategoryRepository implements ICategoryRepository {
   @override
   Stream<List<GenericModel>> getAll() {
     return this.dataSource.getAll();
+  }
+
+  Future<List<CategoryModel>> getCategories() {
+    return this.dataSource.getCategories();
   }
 
 }

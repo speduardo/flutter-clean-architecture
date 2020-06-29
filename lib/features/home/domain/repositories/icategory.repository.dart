@@ -3,4 +3,6 @@ import 'package:fluttercleanarchitecture/features/home/data/models/category.mode
 
 abstract class ICategoryRepository<T extends CategoryModel> implements IGenericRepository {
 
+  Future<List<T>> getCategories();
+
 }
